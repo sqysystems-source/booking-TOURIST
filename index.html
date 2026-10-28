@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Villa Aesthetic | Villa holiday rentals on the Greek islands</title>
+  <meta name="description" content="Villa stays on the Greek islands. Browse villas on Santorini, Mykonos, Paros, Crete and more, then send an enquiry. Our team confirms availability and final pricing.">
+  <meta name="theme-color" content="#D4B28E">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Villa Aesthetic">
+  <meta property="og:title" content="Villa Aesthetic | Villa holiday rentals on the Greek islands">
+  <meta property="og:description" content="Villa stays on the Greek islands. Browse villas, then send an enquiry. Our team confirms availability and final pricing.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body class="page-home">
+  <div id="site-header">
+    <noscript>
+      <nav class="noscript-nav" aria-label="Main">
+        <a href="index.html">Home</a> <a href="villas.html">Villas</a> <a href="contact.html">Contact</a>
+      </nav>
+    </noscript>
+  </div>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <img class="hero__image" src="assets/img/hero.svg" width="1600" height="1000" fetchpriority="high"
+           alt="Demo illustration of a whitewashed villa with a pool at golden hour">
+      <div class="container hero__content">
+        <h1 id="hero-title" class="hero__title">
+          <span class="hero__line">Villa stays on</span>
+          <span class="hero__line">the Greek islands</span>
+        </h1>
+        <p class="hero__lead">Sunlit whitewashed houses, private pools and quiet terraces above the Aegean and Ionian seas. Choose a villa, then send us your dates.</p>
+        <div class="hero__actions">
+          <a class="btn btn-primary btn-large" href="villas.html">Explore Villas</a>
+          <a class="btn btn-ghost btn-large" href="#islands">Discover the islands</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section intro" aria-labelledby="intro-title">
+      <div class="container intro__grid">
+        <div class="intro__media">
+          <span class="arch-frame">
+            <img src="assets/img/demo/villa-selene-3.svg" width="1600" height="1000" loading="lazy" decoding="async"
+                 alt="Demo illustration of an arched terrace looking out to the sea">
+          </span>
+        </div>
+        <div class="intro__text">
+          <h2 id="intro-title" class="section-title">A personal way to find a villa</h2>
+          <p>Villa Aesthetic brings together villas on the Greek islands for holiday stays. Look through the photos and details, send us your dates, and our team answers you directly.</p>
+          <p>We confirm availability and final pricing ourselves. Nothing is booked until we have done that with you.</p>
+          <ol class="steps">
+            <li><span><strong>Browse.</strong> Narrow the villas by island, group size and features.</span></li>
+            <li><span><strong>Enquire.</strong> Send a ready-made message by WhatsApp, Viber or email.</span></li>
+            <li><span><strong>Confirm.</strong> Our team confirms availability and the final price with you.</span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--tint" id="featured" aria-labelledby="featured-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="featured-title" class="section-title">Featured villas</h2>
+          <a class="link-more" href="villas.html">View all villas</a>
+        </div>
+        <div id="featured-grid" class="villa-grid">
+          <noscript><p class="noscript-message">Please turn on JavaScript to see our villas, or <a href="contact.html">contact us</a> and we will help you directly.</p></noscript>
+        </div>
+        <p class="section-note">Prices, where shown, are indicative. Availability and final pricing are confirmed by our team.</p>
+      </div>
+    </section>
+
+    <section class="section" id="islands" aria-labelledby="islands-title">
+      <div class="container">
+        <div class="section-head section-head--stack">
+          <h2 id="islands-title" class="section-title">Discover the islands</h2>
+          <p class="section-lead">Each island has its own character. Choose one to see the villas listed there.</p>
+        </div>
+        <ul id="island-list" class="island-grid"></ul>
+      </div>
+    </section>
+
+    <section class="section contact-band" id="contact" aria-labelledby="contact-title">
+      <div class="container contact-band__grid">
+        <div class="contact-band__text">
+          <h2 id="contact-title" class="section-title">Tell us where and when</h2>
+          <p>Send us the island, your dates and the number of guests. We will come back to you with availability and the final price for the villas that fit.</p>
+          <p class="contact-band__small">Enquiries only. No payment is taken on this website.</p>
+        </div>
+        <div id="home-contact" class="contact-band__channels"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script type="module" src="js/pages/home.js"></script>
+</body>
+</html>

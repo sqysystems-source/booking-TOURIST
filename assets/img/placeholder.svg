@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Photo coming soon">
+<rect width="1600" height="1000" fill="#EADCC8"/>
+<path d="M700,640 V500 A100,100 0 0 1 900,500 V640 Z" fill="none" stroke="#B38F66" stroke-width="10"/>
+<path d="M640,640 H960" stroke="#B38F66" stroke-width="10" stroke-linecap="round"/>
+<text x="800" y="720" text-anchor="middle" font-family="Georgia, serif" font-size="34" fill="#7A5B38">Photo coming soon</text>
+</svg>

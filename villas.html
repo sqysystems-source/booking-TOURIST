@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Villas on the Greek islands | Villa Aesthetic</title>
+  <meta name="description" content="Browse villas for holiday stays on the Greek islands. Filter by island, number of guests and amenities such as a private pool, then send an enquiry.">
+  <meta name="theme-color" content="#D4B28E">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Villa Aesthetic">
+  <meta property="og:title" content="Villas on the Greek islands | Villa Aesthetic">
+  <meta property="og:description" content="Browse villas for holiday stays on the Greek islands and send an enquiry.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Hanken+Grotesk:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body class="page-villas">
+  <div id="site-header">
+    <noscript>
+      <nav class="noscript-nav" aria-label="Main">
+        <a href="index.html">Home</a> <a href="villas.html">Villas</a> <a href="contact.html">Contact</a>
+      </nav>
+    </noscript>
+  </div>
+
+  <main id="main">
+    <section class="page-head" aria-labelledby="page-title">
+      <div class="container">
+        <h1 id="page-title" class="page-head__title">Villas on the Greek islands</h1>
+        <p class="page-head__lead">Choose an island, a group size and the features that matter to you. When you find a villa you like, send us your dates.</p>
+      </div>
+    </section>
+
+    <section class="container listing" aria-label="Villa listings">
+      <form id="filters" class="filters" aria-label="Filter villas" novalidate>
+        <div class="filters__row">
+          <div class="field">
+            <label class="field__label" for="filter-island">Island</label>
+            <select id="filter-island" class="field__input"><option value="">All islands</option></select>
+          </div>
+          <div class="field">
+            <label class="field__label" for="filter-guests">Guests</label>
+            <select id="filter-guests" class="field__input"><option value="">Any number</option></select>
+          </div>
+          <fieldset class="field field--amenities">
+            <legend class="field__label">Amenities</legend>
+            <div id="filter-amenities" class="chips"></div>
+          </fieldset>
+        </div>
+        <div class="filters__foot">
+          <p class="filters__note">Filters narrow the list by features only. They do not check dates, so availability is always confirmed by our team.</p>
+          <button type="button" id="filter-reset" class="btn btn-text" hidden>Clear filters</button>
+        </div>
+      </form>
+
+      <p id="result-count" class="result-count" role="status" aria-live="polite"></p>
+
+      <div id="villa-grid" class="villa-grid">
+        <noscript><p class="noscript-message">Please turn on JavaScript to browse our villas, or <a href="contact.html">contact us</a> and we will help you directly.</p></noscript>
+      </div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+  <script type="module" src="js/pages/villas.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+rules_version = '2';
+
+// Villa Aesthetic: Firestore security rules for the PUBLIC website.
+//
+//  - Anyone may READ villas whose `published` field is true.
+//  - Nobody can read unpublished villas through the client SDK.
+//  - Nobody can write anything through the client SDK.
+//  - Everything else is denied.
+//
+// Important: a list query is only allowed if Firestore can prove every possible
+// result is published, so the website always queries with where('published', '==', true).
+// The admin panel should write with the Firebase ADMIN SDK (server side), which is not
+// subject to these rules and uses a service account that must never appear in this website.
+// If the admin panel instead writes from the browser as a signed-in admin, see the
+// commented example at the bottom of this file.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /villas/{villaId} {
+      allow get, list: if resource.data.published == true;
+      allow create, update, delete: if false;
+    }
+
+    // Deny everything that is not explicitly allowed above.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// OPTIONAL, only if your admin panel signs in with Firebase Authentication and
+// writes from the browser. Replace the `villas` block above with this, and give
+// admin accounts a custom claim `admin: true` (set with the Admin SDK):
+//
+//   match /villas/{villaId} {
+//     allow get, list: if resource.data.published == true
+//                      || (request.auth != null && request.auth.token.admin == true);
+//     allow create, update, delete: if request.auth != null && request.auth.token.admin == true;
+//   }
+// ---------------------------------------------------------------------------

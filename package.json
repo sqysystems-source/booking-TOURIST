@@ -1,0 +1,14 @@
+{
+  "name": "villa-aesthetic",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Public website for Villa Aesthetic: villa holiday rentals on the Greek islands (static HTML/CSS/vanilla JS + Firebase Firestore).",
+  "type": "module",
+  "scripts": {
+    "start": "npx --yes serve . -l 3000",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

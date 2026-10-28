@@ -1,0 +1,223 @@
+/* ==========================================================================
+   Villa Aesthetic: design tokens, reset, typography and layout primitives.
+   Brand colour: sand #D4B28E (RGB 212, 178, 142).
+   ========================================================================== */
+
+:root {
+  /* Colour */
+  --sand: #d4b28e; /* PRIMARY BRAND COLOUR: rgb(212, 178, 142) */
+  --sand-hover: #c79f76;
+  --sand-line: #b8946a; /* decorative lines only */
+  --sand-text: #7a5a36; /* sand for TEXT on ivory (5.9:1) */
+  --sand-100: #ebddc8;
+  --sand-50: #f5ede0;
+  --ivory: #fbf7ef; /* page background */
+  --paper: #fffdf9;
+  --ink: #2a241e; /* primary text (14:1 on ivory) */
+  --ink-2: #51483e; /* secondary text (8:1) */
+  --ink-3: #6b6054; /* muted text (5.7:1) */
+  --aegean: #1e3a46; /* deep sea blue, used for dark bands */
+  --aegean-deep: #172c36;
+  --mist: #e3eae6;
+  --line: #e4d8c6;
+  --control-border: #8c7f6f; /* form controls (3.6:1) */
+  --focus: #1e3a46;
+  --danger: #8a2f22;
+
+  /* Type */
+  --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  --font-body: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.25rem;
+  --step-2: 1.5rem;
+  --step-3: clamp(1.7rem, 1.3rem + 1.6vw, 2.25rem);
+  --step-4: clamp(2.1rem, 1.5rem + 2.6vw, 3.4rem);
+  --step-5: clamp(2.6rem, 1.6rem + 4.4vw, 4.8rem);
+  --step-6: clamp(3rem, 1.4rem + 7.4vw, 7.2rem);
+
+  /* Space */
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --container: 1240px;
+  --section-y: clamp(4.5rem, 9vw, 8.5rem);
+  --header-h: 4.5rem;
+
+  /* Misc */
+  --radius: 4px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+  scroll-behavior: smooth;
+}
+
+html.no-scroll {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 350;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0 0 1rem;
+  text-wrap: pretty;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Focus: always visible for keyboard users */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.on-dark :focus-visible,
+.contact-band :focus-visible,
+.lightbox :focus-visible,
+.hero :focus-visible,
+.site-header[data-overlay='true']:not(.is-scrolled):not(.is-open) :focus-visible {
+  outline-color: var(--sand);
+}
+
+::selection {
+  background: var(--sand);
+  color: var(--ink);
+}
+
+/* Layout primitives */
+.container {
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 200;
+  padding: 0.75rem 1.25rem;
+  background: var(--ink);
+  color: var(--ivory);
+  border-radius: 999px;
+  transition: top 0.2s var(--ease);
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+.icon {
+  flex: none;
+  width: 1.25em;
+  height: 1.25em;
+}
+
+.muted {
+  color: var(--ink-3);
+}
+
+.noscript-nav {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem var(--gutter);
+  background: var(--ivory);
+}
+
+.noscript-message {
+  padding: 2rem 0;
+}
+
+/* Respect reduced-motion preferences everywhere */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

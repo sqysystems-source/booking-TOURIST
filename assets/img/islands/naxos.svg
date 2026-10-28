@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Demo illustration of Naxos">
+<defs>
+<linearGradient id="isNax4_sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EBB487"/><stop offset="1" stop-color="#FBE5CB"/></linearGradient>
+<linearGradient id="isNax4_sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5A8CA6"/><stop offset="1" stop-color="#E1BE98"/></linearGradient>
+<radialGradient id="isNax4_sun"><stop offset="0" stop-color="#FFE2B0" stop-opacity="1"/><stop offset=".35" stop-color="#FFE2B0" stop-opacity=".55"/><stop offset="1" stop-color="#FFE2B0" stop-opacity="0"/></radialGradient>
+<linearGradient id="isNax4_wall" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FFFDF8"/><stop offset="1" stop-color="#F0E8DA"/></linearGradient>
+<linearGradient id="isNax4_pool" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7FDCE4"/><stop offset="1" stop-color="#1FA7BE"/></linearGradient>
+<linearGradient id="isNax4_ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EFE4D0"/><stop offset="1" stop-color="#DCCBB0"/></linearGradient>
+<linearGradient id="isNax4_hill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B9B38D"/><stop offset="1" stop-color="#8E8B66"/></linearGradient>
+</defs>
+<rect width="800" height="520" fill="url(#isNax4_sky)"/>
+<circle cx="240" cy="260" r="200" fill="url(#isNax4_sun)"/><circle cx="240" cy="260" r="46" fill="#FFE2B0"/>
+<rect y="520" width="800" height="480" fill="url(#isNax4_sea)"/>
+<rect x="281" y="536" width="78" height="2" fill="#fff" opacity="0.18"/>
+<rect x="445" y="560" width="101" height="2" fill="#fff" opacity="0.19"/>
+<rect x="108" y="584" width="42" height="2" fill="#fff" opacity="0.25"/>
+<rect x="336" y="608" width="47" height="2" fill="#fff" opacity="0.21"/>
+<rect x="589" y="632" width="86" height="2" fill="#fff" opacity="0.22"/>
+<rect x="216" y="656" width="53" height="2" fill="#fff" opacity="0.22"/>
+<rect x="66" y="680" width="73" height="2" fill="#fff" opacity="0.35"/>
+<rect x="238" y="704" width="61" height="2" fill="#fff" opacity="0.23"/>
+<rect x="421" y="728" width="51" height="2" fill="#fff" opacity="0.36"/>
+<rect x="385" y="752" width="89" height="2" fill="#fff" opacity="0.28"/>
+<rect x="222" y="776" width="71" height="2" fill="#fff" opacity="0.27"/>
+<rect x="131" y="800" width="110" height="2" fill="#fff" opacity="0.36"/>
+<rect x="47" y="824" width="77" height="2" fill="#fff" opacity="0.29"/>
+<rect x="359" y="848" width="105" height="2" fill="#fff" opacity="0.20"/>
+<rect x="473" y="872" width="116" height="2" fill="#fff" opacity="0.22"/>
+<rect x="502" y="896" width="60" height="2" fill="#fff" opacity="0.21"/>
+<rect x="305" y="920" width="45" height="2" fill="#fff" opacity="0.17"/>
+<rect x="513" y="944" width="120" height="2" fill="#fff" opacity="0.40"/>
+<path d="M-20,540 C120,370 300,400 440,460 C560,500 700,390 840,540 V560 H-20 Z" fill="#CDBF9F"/>
+<path d="M-20,560 C160,480 360,510 520,540 S760,490 840,550 V590 H-20 Z" fill="#A99B7B" opacity=".9"/>
+<rect x="72" y="504" width="50" height="37" fill="#FFFDF8"/><rect x="122" y="507" width="9" height="34" fill="#D9CEBA"/>
+<rect x="108" y="514" width="36" height="24" fill="#FFFDF8"/><rect x="144" y="517" width="9" height="21" fill="#D9CEBA"/>
+<rect x="121" y="524" width="9" height="14" fill="#3E6B5E"/>
+<rect x="172" y="500" width="44" height="30" fill="#FFFDF8"/><rect x="216" y="503" width="9" height="27" fill="#D9CEBA"/>
+<rect x="187" y="512" width="9" height="18" fill="#2F4B63"/>
+<rect x="223" y="487" width="40" height="42" fill="#FFFDF8"/><rect x="263" y="490" width="9" height="39" fill="#D9CEBA"/>
+<rect x="276" y="445" width="33" height="23" fill="#FFFDF8"/><rect x="309" y="448" width="9" height="20" fill="#D9CEBA"/>
+<rect x="304" y="493" width="48" height="41" fill="#FFFDF8"/><rect x="352" y="496" width="9" height="38" fill="#D9CEBA"/>
+<rect x="347" y="430" width="35" height="31" fill="#FFFDF8"/><rect x="382" y="433" width="9" height="28" fill="#D9CEBA"/>
+<rect x="393" y="425" width="52" height="24" fill="#FFFDF8"/><rect x="445" y="428" width="9" height="21" fill="#D9CEBA"/>
+<rect x="449" y="482" width="51" height="32" fill="#FFFDF8"/><rect x="500" y="485" width="9" height="29" fill="#D9CEBA"/>
+<rect x="467" y="495" width="9" height="19" fill="#8A5A3C"/>
+<rect x="498" y="415" width="54" height="42" fill="#FFFDF8"/><rect x="552" y="418" width="9" height="39" fill="#D9CEBA"/>
+<rect x="517" y="432" width="9" height="25" fill="#5C6F54"/>
+<rect x="557" y="508" width="32" height="31" fill="#FFFDF8"/><rect x="589" y="511" width="9" height="28" fill="#D9CEBA"/>
+<rect x="612" y="468" width="39" height="26" fill="#FFFDF8"/><rect x="651" y="471" width="9" height="23" fill="#D9CEBA"/>
+<rect x="626" y="478" width="9" height="16" fill="#5C6F54"/>
+<rect x="637" y="462" width="48" height="22" fill="#FFFDF8"/><rect x="685" y="465" width="9" height="19" fill="#D9CEBA"/>
+<rect x="654" y="471" width="9" height="13" fill="#2F4B63"/>
+<rect x="685" y="474" width="41" height="31" fill="#FFFDF8"/><rect x="726" y="477" width="9" height="28" fill="#D9CEBA"/>
+<path d="M330,454 v-26 a20,20 0 0 1 40,0 v26 Z" fill="#fff"/><path d="M334,428 a16,16 0 0 1 32,0 Z" fill="#2D5C7F"/>
+<rect y="860" width="800" height="140" fill="#5A8CA6" opacity=".55"/>
+<g opacity=".85"><rect x="24" y="944" width="236" height="32" rx="16" fill="#1F3B47" fill-opacity=".55"/><text x="42" y="965" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#FFF">Demo illustration, not a photo</text></g>
+</svg>
