@@ -29,7 +29,7 @@ function renderIslands() {
           h(
             'span',
             { class: 'island-card__arch' },
-            createImage({ url: island.image }, { alt: `Demo illustration of ${island.name}`, sizes: '(min-width: 900px) 22vw, 46vw' }),
+            createImage({ url: island.image }, { alt: `Illustration of ${island.name}`, sizes: '(min-width: 900px) 22vw, 46vw' }),
           ),
           h('span', { class: 'island-card__name' }, island.name),
           h('span', { class: 'island-card__group' }, island.group),

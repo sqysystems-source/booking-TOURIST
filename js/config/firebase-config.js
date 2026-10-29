@@ -1,7 +1,7 @@
 /**
  * Firebase / Firestore settings for the PUBLIC website.
  *
- * As shipped, every value is empty, so the website runs in DEMO MODE.
+ * As shipped, values are empty: the site shows a configuration error, never mock villas.
  * To connect to Firestore, paste your Firebase *web app* config below
  * (Firebase console > Project settings > Your apps > Web app > Config).
  *

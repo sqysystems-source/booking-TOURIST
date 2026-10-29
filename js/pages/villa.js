@@ -1,6 +1,6 @@
 import { SITE } from '../config/site-config.js';
 import { CONTACT } from '../config/contact-config.js';
-import { getVillaBySlug, getDataMode, resetCache } from '../data/villa-service.js';
+import { getVillaBySlug, resetCache } from '../data/villa-service.js';
 import { $, h, paragraphs } from '../lib/dom.js';
 import { icon } from '../lib/icons.js';
 import { formatPrice, plural } from '../lib/format.js';
@@ -62,7 +62,6 @@ function renderFacts(villa) {
 
 function renderVilla(villa) {
   const url = shareableUrl(villa);
-  const isDemo = getDataMode().mode === 'demo';
   const price = formatPrice(villa.priceFrom, villa.currency);
   const lightbox = createLightbox();
   const enquiry = createEnquiryDialog({
@@ -125,7 +124,6 @@ function renderVilla(villa) {
         { class: 'villa-head' },
         villa.island ? h('p', { class: 'villa-head__island' }, icon('pin'), [villa.island, villa.area].filter(Boolean).join(', ')) : null,
         h('h1', { class: 'villa-head__title' }, villa.name),
-        isDemo ? h('p', { class: 'badge badge--demo badge--inline' }, 'Demo listing: sample content, not a real property') : null,
       ),
       renderGallery(villa, lightbox),
       h(

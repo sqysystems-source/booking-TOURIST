@@ -16,7 +16,7 @@ export class DataError extends Error {
 
 export const DATA_MESSAGES = {
   config:
-    'The live villa database is selected but Firebase has not been configured yet. Add your Firebase settings in js/config/firebase-config.js, or set dataSource to "auto" or "demo" in js/config/site-config.js.',
+    'The live villa database is selected but Firebase has not been configured yet. Add your Firebase settings in js/config/firebase-config.js.',
   network: 'We could not reach the villa database. Please check your connection and try again.',
   timeout: 'The villa database took too long to respond. Please try again.',
   permission: 'The villa database refused the request. Check the Firestore security rules and that the villa is published.',

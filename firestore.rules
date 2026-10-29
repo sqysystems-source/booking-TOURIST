@@ -1,42 +1,94 @@
+// TOURIST TENANT ONLY — never deploy to SQySystems Master or the event/banquet tenant.
 rules_version = '2';
-
-// Villa Aesthetic: Firestore security rules for the PUBLIC website.
-//
-//  - Anyone may READ villas whose `published` field is true.
-//  - Nobody can read unpublished villas through the client SDK.
-//  - Nobody can write anything through the client SDK.
-//  - Everything else is denied.
-//
-// Important: a list query is only allowed if Firestore can prove every possible
-// result is published, so the website always queries with where('published', '==', true).
-// The admin panel should write with the Firebase ADMIN SDK (server side), which is not
-// subject to these rules and uses a service account that must never appear in this website.
-// If the admin panel instead writes from the browser as a signed-in admin, see the
-// commented example at the bottom of this file.
-
 service cloud.firestore {
-  match /databases/{database}/documents {
-
-    match /villas/{villaId} {
-      allow get, list: if resource.data.published == true;
-      allow create, update, delete: if false;
-    }
-
-    // Deny everything that is not explicitly allowed above.
-    match /{document=**} {
-      allow read, write: if false;
-    }
+ match /databases/{database}/documents {
+  function admin() { return request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'; }
+  function txt(v,n) { return v is string && v.size() <= n; }
+  function image(d,id) {
+   return d is map && d.keys().hasOnly(['url','alt','storagePath']) && d.keys().hasAll(['url','alt'])
+    && txt(d.url,2048) && (d.url.matches('^https://[^ ]+$') || d.url.matches('^assets/[A-Za-z0-9_./-]+$'))
+    && txt(d.alt,240)
+    && (!('storagePath' in d) || (txt(d.storagePath,300) && d.storagePath.matches('^villas/' + id + '/[a-f0-9-]+[.](jpg|png|webp)$')));
   }
+  function images(items,id) {
+   return items is list && items.size()<=12
+    && (items.size()<=0 || image(items[0],id))
+    && (items.size()<=1 || image(items[1],id))
+    && (items.size()<=2 || image(items[2],id))
+    && (items.size()<=3 || image(items[3],id))
+    && (items.size()<=4 || image(items[4],id))
+    && (items.size()<=5 || image(items[5],id))
+    && (items.size()<=6 || image(items[6],id))
+    && (items.size()<=7 || image(items[7],id))
+    && (items.size()<=8 || image(items[8],id))
+    && (items.size()<=9 || image(items[9],id))
+    && (items.size()<=10 || image(items[10],id))
+    && (items.size()<=11 || image(items[11],id))
+   ;
+  }
+  function amenities(items) {
+   return items is list && items.size()<=30 && items.toSet().size()==items.size()
+    && (items.size()<=0 || (txt(items[0],80) && items[0].size()>0))
+    && (items.size()<=1 || (txt(items[1],80) && items[1].size()>0))
+    && (items.size()<=2 || (txt(items[2],80) && items[2].size()>0))
+    && (items.size()<=3 || (txt(items[3],80) && items[3].size()>0))
+    && (items.size()<=4 || (txt(items[4],80) && items[4].size()>0))
+    && (items.size()<=5 || (txt(items[5],80) && items[5].size()>0))
+    && (items.size()<=6 || (txt(items[6],80) && items[6].size()>0))
+    && (items.size()<=7 || (txt(items[7],80) && items[7].size()>0))
+    && (items.size()<=8 || (txt(items[8],80) && items[8].size()>0))
+    && (items.size()<=9 || (txt(items[9],80) && items[9].size()>0))
+    && (items.size()<=10 || (txt(items[10],80) && items[10].size()>0))
+    && (items.size()<=11 || (txt(items[11],80) && items[11].size()>0))
+    && (items.size()<=12 || (txt(items[12],80) && items[12].size()>0))
+    && (items.size()<=13 || (txt(items[13],80) && items[13].size()>0))
+    && (items.size()<=14 || (txt(items[14],80) && items[14].size()>0))
+    && (items.size()<=15 || (txt(items[15],80) && items[15].size()>0))
+    && (items.size()<=16 || (txt(items[16],80) && items[16].size()>0))
+    && (items.size()<=17 || (txt(items[17],80) && items[17].size()>0))
+    && (items.size()<=18 || (txt(items[18],80) && items[18].size()>0))
+    && (items.size()<=19 || (txt(items[19],80) && items[19].size()>0))
+    && (items.size()<=20 || (txt(items[20],80) && items[20].size()>0))
+    && (items.size()<=21 || (txt(items[21],80) && items[21].size()>0))
+    && (items.size()<=22 || (txt(items[22],80) && items[22].size()>0))
+    && (items.size()<=23 || (txt(items[23],80) && items[23].size()>0))
+    && (items.size()<=24 || (txt(items[24],80) && items[24].size()>0))
+    && (items.size()<=25 || (txt(items[25],80) && items[25].size()>0))
+    && (items.size()<=26 || (txt(items[26],80) && items[26].size()>0))
+    && (items.size()<=27 || (txt(items[27],80) && items[27].size()>0))
+    && (items.size()<=28 || (txt(items[28],80) && items[28].size()>0))
+    && (items.size()<=29 || (txt(items[29],80) && items[29].size()>0))
+   ;
+  }
+  function villa(d,id) {
+   return d.keys().hasOnly(['id','slug','name','island','area','description','shortDescription','images','maxGuests','bedrooms','bathrooms','amenities','priceFrom','currency','featured','published','revision','createdAt','updatedAt'])
+    && d.keys().hasAll(['id','slug','name','island','area','description','shortDescription','images','maxGuests','bedrooms','bathrooms','amenities','priceFrom','currency','featured','published','revision','createdAt','updatedAt'])
+    && txt(d.id,128) && txt(d.slug,100) && d.slug.matches('^[a-z0-9]+(-[a-z0-9]+)*$')
+    && txt(d.name,120) && d.name.size()>0 && txt(d.area,120)
+    && d.island in ['Santorini','Mykonos','Paros','Naxos','Crete','Milos','Corfu','Zakynthos']
+    && txt(d.description,12000) && txt(d.shortDescription,300)
+    && d.maxGuests is int && d.maxGuests>=1 && d.maxGuests<=100
+    && d.bedrooms is int && d.bedrooms>=0 && d.bedrooms<=50
+    && d.bathrooms is int && d.bathrooms>=0 && d.bathrooms<=50
+    && amenities(d.amenities)
+    && (d.priceFrom==null || (d.priceFrom is number && d.priceFrom>0 && d.priceFrom<=1000000))
+    && d.currency=='EUR' && d.featured is bool && d.published is bool && images(d.images,id)
+    && (!d.published || (d.description.size()>0 && d.images.size()>0))
+    && d.revision is int && d.revision>0 && d.createdAt is timestamp && d.updatedAt==request.time;
+  }
+  match /users/{uid} {
+   allow get: if request.auth!=null && (request.auth.uid==uid || admin());
+   allow list: if admin();
+   allow write: if false; // Provision tenant admin profiles using trusted Console/Admin SDK only.
+  }
+  match /villas/{id} {
+   allow get,list: if admin() || resource.data.published==true;
+   allow create: if admin() && villa(request.resource.data,id) && request.resource.data.slug==id && request.resource.data.id==id && request.resource.data.revision==1 && request.resource.data.createdAt==request.time;
+   allow update: if admin() && villa(request.resource.data,id) && request.resource.data.slug==resource.data.slug
+    && request.resource.data.revision==resource.data.get('revision',0)+1
+    && (('createdAt' in resource.data && request.resource.data.createdAt==resource.data.createdAt) || (!('createdAt' in resource.data) && request.resource.data.createdAt==request.time));
+   allow delete: if admin();
+  }
+  match /{document=**} { allow read,write: if false; }
+ }
 }
-
-// ---------------------------------------------------------------------------
-// OPTIONAL, only if your admin panel signs in with Firebase Authentication and
-// writes from the browser. Replace the `villas` block above with this, and give
-// admin accounts a custom claim `admin: true` (set with the Admin SDK):
-//
-//   match /villas/{villaId} {
-//     allow get, list: if resource.data.published == true
-//                      || (request.auth != null && request.auth.token.admin == true);
-//     allow create, update, delete: if request.auth != null && request.auth.token.admin == true;
-//   }
-// ---------------------------------------------------------------------------

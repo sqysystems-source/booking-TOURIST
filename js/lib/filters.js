@@ -16,6 +16,8 @@ export function filterVillas(villas, filters = {}) {
   return villas.filter((villa) => {
     if (island && slugify(villa.island) !== island) return false;
     if (guests && !(villa.maxGuests >= guests)) return false;
+    if (Number(filters.minPrice)>0 && !(villa.priceFrom>=Number(filters.minPrice))) return false;
+    if (Number(filters.maxPrice)>0 && !(villa.priceFrom!==null && villa.priceFrom<=Number(filters.maxPrice))) return false;
     if (wanted.length) {
       const have = new Set(villa.amenities.map((a) => a.key));
       if (!wanted.every((key) => have.has(key))) return false;
@@ -25,7 +27,7 @@ export function filterVillas(villas, filters = {}) {
 }
 
 export function hasActiveFilters(filters) {
-  return Boolean(filters.island || filters.guests || (filters.amenities ?? []).length);
+  return Boolean(filters.island || filters.guests || Number(filters.minPrice)>0 || Number(filters.maxPrice)>0 || (filters.amenities ?? []).length);
 }
 
 /** Island names present in the data, in editorial order first, then any extras A-Z. */
@@ -45,7 +47,7 @@ export function islandOptions(villas) {
 
 /** Guest counts to offer, up to the largest capacity in the data. */
 export function guestOptions(villas) {
-  const max = Math.min(Math.max(2, ...villas.map((v) => v.maxGuests || 0)), 20);
+  const max = Math.min(Math.max(2, ...villas.map((v) => v.maxGuests || 0)), 100);
   return Array.from({ length: max }, (_, i) => i + 1);
 }
 
@@ -65,6 +67,8 @@ export function amenityOptions(villas) {
 export function filtersFromParams(params) {
   const guests = parseInt(params.get('guests') ?? '', 10);
   return {
+    ...(Number(params.get('minPrice'))>0?{minPrice:Number(params.get('minPrice'))}:{}),
+    ...(Number(params.get('maxPrice'))>0?{maxPrice:Number(params.get('maxPrice'))}:{}),
     island: (params.get('island') ?? '').trim(),
     guests: Number.isFinite(guests) && guests > 0 ? guests : 0,
     amenities: (params.get('amenities') ?? '')
@@ -79,5 +83,7 @@ export function filtersToParams(filters) {
   if (filters.island) params.set('island', filters.island);
   if (filters.guests) params.set('guests', String(filters.guests));
   if (filters.amenities?.length) params.set('amenities', filters.amenities.join(','));
+  if (Number(filters.minPrice)>0) params.set('minPrice',String(filters.minPrice));
+  if (Number(filters.maxPrice)>0) params.set('maxPrice',String(filters.maxPrice));
   return params;
 }

@@ -1,0 +1,19 @@
+// TOURIST TENANT STORAGE ONLY. Uses the tenant's (default) Firestore database.
+rules_version = '2';
+service firebase.storage {
+ match /b/{bucket}/o {
+  function admin() { return request.auth!=null && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role=='admin'; }
+  function published(id) { return firestore.get(/databases/(default)/documents/villas/$(id)).data.published==true; }
+  match /villas/{villaId}/{fileName} {
+   // Tokenless media URLs honor publication status. Never persist download-token URLs.
+   allow get: if admin() || published(villaId);
+   allow list: if admin();
+   allow create,update: if admin() && firestore.exists(/databases/(default)/documents/villas/$(villaId))
+    && fileName.matches('^[a-f0-9-]+[.](jpg|png|webp)$')
+    && request.resource.size>0 && request.resource.size<=8388608
+    && request.resource.contentType in ['image/jpeg','image/png','image/webp'];
+   allow delete: if admin();
+  }
+  match /{path=**} { allow read,write: if false; }
+ }
+}

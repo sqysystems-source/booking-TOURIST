@@ -15,24 +15,15 @@ import { SITE } from '../config/site-config.js';
 import { isFirebaseConfigured } from '../config/firebase-config.js';
 import { normalizeVilla, normalizeVillas, slugify } from './schema-map.js';
 import { DataError, DATA_MESSAGES } from './data-error.js';
-import * as demoSource from './sources/demo-source.js';
 
 const warn = (message) => console.warn(`[Villa Aesthetic] ${message}`);
 
 export function getDataMode() {
-  const setting = SITE.dataSource;
-  const configured = isFirebaseConfigured();
-  if (setting === 'demo') return { mode: 'demo', configured, reason: 'dataSource is set to "demo".' };
-  if (setting === 'firestore') return { mode: 'live', configured, reason: 'dataSource is set to "firestore".' };
-  return configured
-    ? { mode: 'live', configured, reason: 'Firebase is configured.' }
-    : { mode: 'demo', configured, reason: 'Firebase is not configured.' };
+ return {mode:'live',configured:isFirebaseConfigured(),reason:'Production Firestore only.'};
 }
-
 async function getSource() {
-  if (getDataMode().mode === 'demo') return demoSource;
-  if (!isFirebaseConfigured()) throw new DataError('config', DATA_MESSAGES.config);
-  return import('./sources/firestore-source.js'); // loaded lazily: demo mode never touches Firebase
+ if (!isFirebaseConfigured()) throw new DataError('config', DATA_MESSAGES.config);
+ return import('./sources/firestore-source.js');
 }
 
 let allPromise = null;

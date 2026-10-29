@@ -1,5 +1,5 @@
 /**
- * Shared page chrome: skip link, demo-mode bar, header, mobile navigation and footer.
+ * Shared page chrome: skip link, header, mobile navigation and footer.
  * Every page calls mountLayout({ page }) so navigation and footer are edited in one place
  * (js/config/site-config.js).
  */
@@ -113,26 +113,11 @@ function buildFooter() {
   );
 }
 
-function setNoIndexForDemo() {
-  const meta = h('meta', { name: 'robots', content: 'noindex, nofollow' });
-  document.head.append(meta);
-}
-
 export function mountLayout({ page }) {
   const { mode } = getDataMode();
 
   const skip = h('a', { class: 'skip-link', href: '#main' }, 'Skip to content');
   const parts = [skip];
-  if (mode === 'demo') {
-    parts.push(
-      h(
-        'div',
-        { class: 'demo-bar', role: 'note' },
-        h('div', { class: 'container' }, h('strong', {}, 'Demo mode. '), SITE.messages.demoBanner),
-      ),
-    );
-    setNoIndexForDemo(); // sample listings should never be indexed as real properties
-  }
   parts.push(buildHeader(page));
 
   const headerHost = $('#site-header');

@@ -12,6 +12,7 @@ export const AMENITIES = {
   wifi: { label: 'Wi-Fi', aliases: ['wifi', 'wi-fi', 'wi fi', 'internet'] },
   airConditioning: { label: 'Air conditioning', aliases: ['air conditioning', 'ac', 'a/c', 'aircon', 'air-conditioning'] },
   kitchen: { label: 'Full kitchen', aliases: ['kitchen', 'full kitchen', 'equipped kitchen'] },
+  chef: { label: 'Private chef', aliases: ['chef', 'private chef', 'chef service'] },
   bbq: { label: 'Barbecue', aliases: ['bbq', 'barbecue', 'barbeque', 'grill'] },
   parking: { label: 'Parking', aliases: ['parking', 'private parking', 'free parking'] },
   beachNearby: { label: 'Walk to the beach', aliases: ['beach nearby', 'walk to beach', 'beach access', 'near beach', 'walk to the beach'] },

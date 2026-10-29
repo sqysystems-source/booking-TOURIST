@@ -2,7 +2,7 @@
  * Firestore data source (read-only, public).
  *
  * - Loads the Firebase JS SDK from Google's CDN only when this module is used,
- *   so demo mode never contacts Firebase.
+ *   without blocking static page rendering.
  * - Every query includes `published == true`. Firestore security rules enforce
  *   the same thing server-side (see firestore.rules).
  * - Only equality filters are used, so no composite index is required.
@@ -52,7 +52,7 @@ async function run(buildQuery) {
   try {
     const { db, fs } = await withTimeout(loadFirestore(), FIRESTORE_TIMEOUT_MS);
     const q = buildQuery(fs, fs.collection(db, VILLAS_COLLECTION));
-    const snapshot = await withTimeout(fs.getDocs(q), FIRESTORE_TIMEOUT_MS);
+    const snapshot = await withTimeout(fs.getDocsFromServer(q), FIRESTORE_TIMEOUT_MS);
     return snapshot.docs.map((doc) => ({ raw: doc.data(), docId: doc.id }));
   } catch (error) {
     throw toDataError(error);

@@ -64,12 +64,15 @@ function syncControls() {
   // Match island case-insensitively with the option text.
   const match = [...islandSelect.options].find((o) => slugify(o.value) === slugify(filters.island) && o.value);
   islandSelect.value = match ? match.value : '';
+  $('#filter-min-price').value=filters.minPrice||'';$('#filter-max-price').value=filters.maxPrice||'';
   guestSelect.value = filters.guests ? String(filters.guests) : '';
   amenityHost.querySelectorAll('input').forEach((input) => (input.checked = filters.amenities.includes(input.value)));
 }
 
 function readControls() {
   filters = {
+    minPrice:Math.max(0,Number($('#filter-min-price').value)||0),
+    maxPrice:Math.max(0,Number($('#filter-max-price').value)||0),
     island: islandSelect.value,
     guests: Number(guestSelect.value) || 0,
     amenities: [...amenityHost.querySelectorAll('input:checked')].map((i) => i.value),

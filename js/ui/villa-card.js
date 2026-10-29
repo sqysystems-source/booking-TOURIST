@@ -2,14 +2,12 @@ import { h } from '../lib/dom.js';
 import { icon } from '../lib/icons.js';
 import { formatPrice, plural } from '../lib/format.js';
 import { createImage } from './images.js';
-import { getDataMode } from '../data/villa-service.js';
 
 export const villaUrl = (villa) => `villa.html?slug=${encodeURIComponent(villa.slug)}`;
 
 const CARD_SIZES = '(min-width: 1100px) 380px, (min-width: 700px) 45vw, 92vw';
 
 export function createVillaCard(villa, { eager = false } = {}) {
-  const isDemo = getDataMode().mode === 'demo';
   const price = formatPrice(villa.priceFrom, villa.currency);
   const facts = [];
   if (villa.maxGuests !== null) facts.push(['guests', plural(villa.maxGuests, 'guest')]);
@@ -22,7 +20,6 @@ export function createVillaCard(villa, { eager = false } = {}) {
       'div',
       { class: 'villa-card__media' },
       createImage(villa.images[0], { alt: villa.images[0]?.alt ?? `${villa.name}`, sizes: CARD_SIZES, eager }),
-      isDemo ? h('span', { class: 'badge badge--demo' }, 'Demo listing') : null,
     ),
     h(
       'div',

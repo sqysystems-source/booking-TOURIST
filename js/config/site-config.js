@@ -6,14 +6,8 @@
 export const SITE = {
   brandName: 'Villa Aesthetic',
 
-  /**
-   * Where villa listings come from.
-   *   'auto'      – use Firestore when firebase-config.js is filled in, otherwise demo mode (default)
-   *   'demo'      – always use the sample listings in js/data/demo-villas.js
-   *   'firestore' – always use Firestore. If Firebase is not configured the site shows
-   *                 an error instead of falling back to demo listings.
-   */
-  dataSource: 'auto',
+  // Production-only: mock records are never selected or used as a fallback.
+  dataSource: 'firestore',
 
   /**
    * Public origin used when building shareable villa links for enquiries,
@@ -42,8 +36,6 @@ export const SITE = {
     filterNote:
       'Filters narrow the list by features only. They do not check dates, so availability is always confirmed by our team.',
     priceNote: 'Indicative price. Final pricing is confirmed by our team.',
-    demoBanner:
-      'The villas, photos and prices on this site are sample content, not real properties.',
   },
 
   /** Number of featured villas shown on the homepage. */
