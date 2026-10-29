@@ -1,9 +1,8 @@
 /**
  * Firebase / Firestore settings for the PUBLIC website.
  *
- * As shipped, values are empty: the site shows a configuration error, never mock villas.
- * To connect to Firestore, paste your Firebase *web app* config below
- * (Firebase console > Project settings > Your apps > Web app > Config).
+ * Vercel generates this PUBLIC web config from FIREBASE_* variables during npm run build.
+ * Unconfigured local previews show a configuration error, never demo villas.
  *
  * These web config values identify your project; they are not secrets and are
  * designed to be public. Access is controlled by Firestore security rules
@@ -22,7 +21,7 @@ export const FIREBASE_CONFIG = {
 /** Name of the Firestore collection that holds villa documents. */
 export const VILLAS_COLLECTION = 'villas';
 
-/** Firebase JS SDK version loaded from Google's CDN (no build step needed). */
+/** Firebase JS SDK version loaded from Google's CDN (loaded by the browser). */
 export const FIREBASE_SDK_VERSION = '10.14.1';
 
 /** Milliseconds to wait for Firestore before showing an error with a retry button. */

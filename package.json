@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "npx --yes serve . -l 3000",
-    "test": "node --experimental-vm-modules --test tests/*.test.mjs"
+    "test": "node --experimental-vm-modules --test tests/*.test.mjs",
+    "build": "node scripts/build-config.mjs"
   },
   "engines": {
     "node": ">=18"

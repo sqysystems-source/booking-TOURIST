@@ -7,7 +7,7 @@ The matching **SQySystems `booking_tourist`** workspace is `public/admin-tourist
 ## Setup
 
 1. Create/select the dedicated tourist Firebase project with its **(default)** Firestore database. Activate Firebase Authentication Email/Password and Firebase Storage. No service-account key belongs in either frontend.
-2. Copy the six public web-app config values into `js/config/firebase-config.js`. Use the **same project and storageBucket** in SQySystems → Store Connections. Never use the Master project's credentials for this tenant.
+2. Set the six public FIREBASE_* variables in Vercel; see VERCEL_ENV_SETUP.md. The build generates js/config/firebase-config.js. Use the **same project and storageBucket** in SQySystems → Store Connections. Never use the Master project's credentials for this tenant.
 3. Create the tenant owner's Firebase Auth user. In this tenant's Firestore Console, create `users/{EXACT_AUTH_UID}` with `role: "admin"` and the owner's email. The browser cannot grant this role. Existing Master accounts remain independent; the workspace supports the existing tenant session/login flow.
 4. Publish this repository's `firestore.rules` to the **tourist tenant Firestore** and `storage.rules` to its **Storage bucket**. These are not Booking Events or Master rules. When asked by Firebase, enable the permission allowing Storage rules to consult Firestore.
 5. Configure bucket CORS for authenticated draft image previews from the SQySystems origin. Copy `storage.cors.example.json`, replace the tourist-domain placeholder, include every exact SQySystems origin you use, then apply it with `gcloud storage buckets update gs://YOUR_BUCKET --cors-file=storage.cors.example.json`. CORS is not authorization.
@@ -17,7 +17,7 @@ The matching **SQySystems `booking_tourist`** workspace is `public/admin-tourist
 
 ## Vercel
 
-Import the tourist repository as its own Vercel project. Framework **Other**, no build command, output directory `.`. Keep `vercel.json` (including Firebase image/connect permissions). Public Firebase web config is intentionally public; no additional private environment variables are introduced. Do not upload private service-account credentials.
+Import the tourist repository as its own Vercel project. Framework **Other**, build command `npm run build`, output directory `.`. Keep `vercel.json` (including Firebase image/connect permissions). Public Firebase web config is intentionally public; no additional private environment variables are introduced. Do not upload private service-account credentials.
 
 ## Canonical villa schema
 
