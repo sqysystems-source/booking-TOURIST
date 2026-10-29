@@ -10,6 +10,11 @@ try{
  await env.clearFirestore();await env.clearStorage();await env.withSecurityRulesDisabled(async c=>{await setDoc(doc(c.firestore(),'users/owner'),{role:'admin'});await setDoc(doc(c.firestore(),'users/visitor'),{role:'customer'});});
  const admin=env.authenticatedContext('owner'),anon=env.unauthenticatedContext(),visitor=env.authenticatedContext('visitor');
  const base={id:'villa-aegean',name:'Aegean',slug:'villa-aegean',island:'Paros',area:'Naoussa',description:'A real property.',shortDescription:'A villa.',maxGuests:6,bedrooms:3,bathrooms:2,amenities:Array.from({length:30},(_,i)=>'Custom '+i),images:Array.from({length:12},(_,i)=>({url:'https://example.com/'+i+'.webp',alt:'Photo '+i,storagePath:'villas/villa-aegean/'+String(i).padStart(8,'a')+'.webp'})),priceFrom:450,currency:'EUR',featured:true,published:true,revision:1,createdAt:serverTimestamp(),updatedAt:serverTimestamp()};
+ // Published listings may omit images, but must retain their full description.
+ const noPhoto={...base,id:'villa-no-photo',slug:'villa-no-photo',images:[]};
+ await assertSucceeds(setDoc(doc(admin.firestore(),'villas/villa-no-photo'),noPhoto));
+ await assertSucceeds(getDoc(doc(anon.firestore(),'villas/villa-no-photo')));
+ await assertFails(setDoc(doc(admin.firestore(),'villas/villa-no-description'),{...noPhoto,id:'villa-no-description',slug:'villa-no-description',description:''}));
  // Full array boundaries also verify the Firestore rules expression budget.
  await assertSucceeds(setDoc(doc(admin.firestore(),'villas/villa-aegean'),base));
  await assertSucceeds(getDocs(query(collection(anon.firestore(),'villas'),where('published','==',true))));

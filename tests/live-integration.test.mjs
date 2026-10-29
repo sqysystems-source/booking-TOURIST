@@ -22,3 +22,12 @@ test('live source queries server-only published documents for both catalog and s
  const link=(specifier,parent)=>load(new URL(specifier,parent.identifier).href);context.calls=calls;context.record=record;const module=await load(new URL('../js/data/sources/firestore-source.js',import.meta.url).href);await module.link(link);await module.evaluate();
  assert.equal((await module.namespace.fetchAllPublished())[0].raw.name,'Live villa');await module.namespace.fetchBySlug('live-villa');assert.equal(calls.length,2);for(const call of calls){assert.equal(call.target.path,'villas');assert.ok(call.filters.some(f=>f.field==='published'&&f.value===true));}assert.ok(calls[1].filters.some(f=>f.field==='slug'&&f.value==='live-villa'));
 });
+
+test('published villas without photos remain visible in the public catalog',()=>{
+ const raw={name:'Villa without photos',slug:'villa-without-photos',island:'Paros',description:'A real property.',images:[],maxGuests:4,published:true};
+ const rows=normalizeVillas([{raw,docId:'villa-without-photos'}]);
+ assert.equal(rows.length,1);assert.deepEqual(rows[0].images,[]);assert.equal(rows[0].name,raw.name);
+ const detail=readFileSync(new URL('../js/pages/villa.js',import.meta.url),'utf8');assert.match(detail,/Photos coming soon/);
+ const images=readFileSync(new URL('../js/ui/images.js',import.meta.url),'utf8');assert.ok(images.includes('image?.url || PLACEHOLDER_IMAGE'));
+ const rules=readFileSync(new URL('../firestore.rules',import.meta.url),'utf8');assert.ok(rules.includes('(!d.published || d.description.size()>0)'));assert.ok(!rules.includes('d.images.size()>0'));
+});

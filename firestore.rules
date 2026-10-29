@@ -73,7 +73,7 @@ service cloud.firestore {
     && amenities(d.amenities)
     && (d.priceFrom==null || (d.priceFrom is number && d.priceFrom>0 && d.priceFrom<=1000000))
     && d.currency=='EUR' && d.featured is bool && d.published is bool && images(d.images,id)
-    && (!d.published || (d.description.size()>0 && d.images.size()>0))
+    && (!d.published || d.description.size()>0)
     && d.revision is int && d.revision>0 && d.createdAt is timestamp && d.updatedAt==request.time;
   }
   match /users/{uid} {
