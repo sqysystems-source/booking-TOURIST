@@ -5,9 +5,10 @@ service cloud.firestore {
   function admin() { return request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'; }
   function txt(v,n) { return v is string && v.size() <= n; }
   function image(d,id) {
-   return d is map && d.keys().hasOnly(['url','alt','storagePath']) && d.keys().hasAll(['url','alt'])
+   return d is map && d.keys().hasOnly(['url','alt','storagePath','r2Key']) && d.keys().hasAll(['url','alt'])
     && txt(d.url,2048) && (d.url.matches('^https://[^ ]+$') || d.url.matches('^assets/[A-Za-z0-9_./-]+$'))
     && txt(d.alt,240)
+    && (!('r2Key' in d) || (txt(d.r2Key,300) && !('storagePath' in d) && d.r2Key.matches('^villas/' + id + '/[a-f0-9-]+[.](jpg|png|webp)$')))
     && (!('storagePath' in d) || (txt(d.storagePath,300) && d.storagePath.matches('^villas/' + id + '/[a-f0-9-]+[.](jpg|png|webp)$')));
   }
   function images(items,id) {
@@ -83,11 +84,9 @@ service cloud.firestore {
   }
   match /villas/{id} {
    allow get,list: if admin() || resource.data.published==true;
-   allow create: if admin() && villa(request.resource.data,id) && request.resource.data.slug==id && request.resource.data.id==id && request.resource.data.revision==1 && request.resource.data.createdAt==request.time;
-   allow update: if admin() && villa(request.resource.data,id) && request.resource.data.slug==resource.data.slug
-    && request.resource.data.revision==resource.data.get('revision',0)+1
-    && (('createdAt' in resource.data && request.resource.data.createdAt==resource.data.createdAt) || (!('createdAt' in resource.data) && request.resource.data.createdAt==request.time));
-   allow delete: if admin();
+   // All mutations go through the tenant backend. This closes the race between
+   // attaching an image and deleting its object. Public/admin reads stay intact.
+   allow create,update,delete: if false;
   }
   match /{document=**} { allow read,write: if false; }
  }

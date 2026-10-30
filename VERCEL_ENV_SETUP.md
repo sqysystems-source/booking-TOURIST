@@ -15,6 +15,6 @@ Vercel → booking-TOURIST → Settings → Environment Variables:
 
 Framework Other, Build Command npm run build, Output Directory . — περιέχονται στο vercel.json. Αφαιρέστε παλιά dashboard overrides που κρατούν κενό Build Command και κάντε Redeploy. Κάθε μελλοντική αλλαγή variable χρειάζεται νέο deployment.
 
-Το build παράγει αυτόματα το js/config/firebase-config.js και αποτυγχάνει αν λείπει απαιτούμενο variable. Αυτές είναι δημόσιες Firebase web τιμές και εμφανίζονται στο JavaScript του browser. Service-account/private keys δεν χρησιμοποιούνται εδώ. Η ασφάλεια παραμένει στα tenant Auth, Firestore και Storage rules.
+Το build παράγει αυτόματα το js/config/firebase-config.js και αποτυγχάνει αν λείπει απαιτούμενο variable. Αυτές είναι δημόσιες Firebase web τιμές και εμφανίζονται στο JavaScript του browser. Το public build δεν εκπέμπει service-account/private keys. Το νέο R2 backend χρειάζεται server-only Admin credentials· δείτε το R2_DEPLOYMENT.md. Η ασφάλεια παραμένει στα tenant Auth, Firestore και Storage rules.
 
-Το project πρέπει να είναι το ίδιο με τη σύνδεση booking_tourist στο SQySystems. Τα Firebase rules δεν αλλάζουν σε αυτό το patch. Αντιγράψτε τα αρχεία πάνω από το προηγούμενο tourist integration, όχι στο SQySystems project.
+Το project πρέπει να είναι το ίδιο με τη σύνδεση booking_tourist στο SQySystems. Τα νέα R2 rules μεταφέρουν τις εγγραφές βιλών στο authenticated backend· δείτε τη σειρά εγκατάστασης στο R2_DEPLOYMENT.md. Αντιγράψτε τα αρχεία πάνω από το προηγούμενο tourist integration, όχι στο SQySystems project.

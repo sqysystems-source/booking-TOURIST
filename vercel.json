@@ -40,5 +40,10 @@
   ],
   "framework": null,
   "buildCommand": "npm run build",
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "functions": {
+    "api/r2.js": {
+      "maxDuration": 60
+    }
+  }
 }

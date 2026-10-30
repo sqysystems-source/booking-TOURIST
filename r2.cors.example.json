@@ -1,0 +1,9 @@
+[
+  {
+    "AllowedOrigins": ["https://YOUR_SQYSYSTEMS_DOMAIN"],
+    "AllowedMethods": ["PUT", "GET", "HEAD"],
+    "AllowedHeaders": ["content-type"],
+    "ExposeHeaders": ["ETag"],
+    "MaxAgeSeconds": 600
+  }
+]

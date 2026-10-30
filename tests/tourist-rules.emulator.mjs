@@ -12,11 +12,13 @@ try{
  const base={id:'villa-aegean',name:'Aegean',slug:'villa-aegean',island:'Paros',area:'Naoussa',description:'A real property.',shortDescription:'A villa.',maxGuests:6,bedrooms:3,bathrooms:2,amenities:Array.from({length:30},(_,i)=>'Custom '+i),images:Array.from({length:12},(_,i)=>({url:'https://example.com/'+i+'.webp',alt:'Photo '+i,storagePath:'villas/villa-aegean/'+String(i).padStart(8,'a')+'.webp'})),priceFrom:450,currency:'EUR',featured:true,published:true,revision:1,createdAt:serverTimestamp(),updatedAt:serverTimestamp()};
  // Published listings may omit images, but must retain their full description.
  const noPhoto={...base,id:'villa-no-photo',slug:'villa-no-photo',images:[]};
- await assertSucceeds(setDoc(doc(admin.firestore(),'villas/villa-no-photo'),noPhoto));
+ await assertFails(setDoc(doc(admin.firestore(),'villas/villa-no-photo'),noPhoto));
+ await env.withSecurityRulesDisabled(async c=>setDoc(doc(c.firestore(),'villas/villa-no-photo'),noPhoto));
  await assertSucceeds(getDoc(doc(anon.firestore(),'villas/villa-no-photo')));
  await assertFails(setDoc(doc(admin.firestore(),'villas/villa-no-description'),{...noPhoto,id:'villa-no-description',slug:'villa-no-description',description:''}));
  // Full array boundaries also verify the Firestore rules expression budget.
- await assertSucceeds(setDoc(doc(admin.firestore(),'villas/villa-aegean'),base));
+ await assertFails(setDoc(doc(admin.firestore(),'villas/villa-aegean'),base));
+ await env.withSecurityRulesDisabled(async c=>setDoc(doc(c.firestore(),'villas/villa-aegean'),base));
  await assertSucceeds(getDocs(query(collection(anon.firestore(),'villas'),where('published','==',true))));
  await assertFails(getDocs(collection(anon.firestore(),'villas')));
  await assertFails(setDoc(doc(visitor.firestore(),'villas/villa-aegean'),base));
@@ -28,7 +30,9 @@ try{
  await assertFails(uploadBytes(ref(visitor.storage(),path),new Uint8Array([1]),{contentType:'image/webp'}));
  await assertFails(uploadBytes(ref(admin.storage(),'villas/villa-aegean/aaaaaaaa.svg'),new Uint8Array([1]),{contentType:'image/svg+xml'}));
  await assertFails(uploadBytes(ref(admin.storage(),path),new Uint8Array(8388609),{contentType:'image/webp'}));
- await assertSucceeds(updateDoc(doc(admin.firestore(),'villas/villa-aegean'),{published:false,revision:2,updatedAt:serverTimestamp()}));
+ await assertFails(updateDoc(doc(admin.firestore(),'villas/villa-aegean'),{published:false,revision:2,updatedAt:serverTimestamp()}));
+ await assertFails(setDoc(doc(admin.firestore(),'_villaImages/test'),{state:'ready'}));
+ await env.withSecurityRulesDisabled(async c=>updateDoc(doc(c.firestore(),'villas/villa-aegean'),{published:false,revision:2,updatedAt:serverTimestamp()}));
  await assertFails(getDoc(doc(anon.firestore(),'villas/villa-aegean')));await assertFails(getBytes(ref(anon.storage(),path)));await assertSucceeds(getDoc(doc(admin.firestore(),'villas/villa-aegean')));
  console.log('Tourist Firestore and Storage emulator scenarios passed.');
 }finally{await env.cleanup();}
