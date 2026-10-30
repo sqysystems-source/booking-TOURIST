@@ -1,9 +1,21 @@
 [
   {
-    "AllowedOrigins": ["https://YOUR_SQYSYSTEMS_DOMAIN"],
-    "AllowedMethods": ["PUT", "GET", "HEAD"],
-    "AllowedHeaders": ["content-type"],
-    "ExposeHeaders": ["ETag"],
+    "AllowedOrigins": [
+      "https://www.sqysystems.com",
+      "https://sqysystems.com",
+      "https://booking-tourist.vercel.app"
+    ],
+    "AllowedMethods": [
+      "PUT",
+      "GET",
+      "HEAD"
+    ],
+    "AllowedHeaders": [
+      "content-type"
+    ],
+    "ExposeHeaders": [
+      "ETag"
+    ],
     "MaxAgeSeconds": 600
   }
 ]

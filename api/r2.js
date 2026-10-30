@@ -1,5 +1,6 @@
 import {tenantAdmin} from '../server/firebase-admin.js';
 import {createR2} from '../server/r2.js';
+import {createHeroService} from '../server/hero-service.js';
 import {createVillaService} from '../server/villa-service.js';
 export const config={api:{bodyParser:{sizeLimit:'128kb'}}};
 export function allowedOrigins(value=process.env.ALLOWED_ORIGINS){
@@ -23,8 +24,9 @@ export function makeHandler({admin=tenantAdmin,storage=createR2,origins=allowedO
    const body=typeof req.body==='string'?JSON.parse(req.body):req.body;
    if(!body||typeof body!=='object'||Array.isArray(body)||JSON.stringify(body).length>131072)return res.status(400).json({error:'invalid'});
    const {action,...args}=body;
-   if(!['presign','complete','save','remove','discard','cleanup'].includes(action))return res.status(400).json({error:'invalid'});
-   const result=await createVillaService(db,storage())[action](args);return res.status(200).json(result);
+   const heroAction=typeof action==='string'&&action.startsWith('hero-')?action.slice(5):null;
+   if(!(heroAction?['presign','complete','save','discard','cleanup'].includes(heroAction):['presign','complete','save','remove','discard','cleanup'].includes(action)))return res.status(400).json({error:'invalid'});
+   const result=heroAction?await createHeroService(db,storage())[heroAction]({...args,id:'hero'}):await createVillaService(db,storage())[action](args);return res.status(200).json(result);
   }catch(error){
    if(error instanceof SyntaxError)return res.status(400).json({error:'invalid'});
    const code=error?.code?.startsWith('villa/')?error.code.slice(6):null;

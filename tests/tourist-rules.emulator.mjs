@@ -34,5 +34,9 @@ try{
  await assertFails(setDoc(doc(admin.firestore(),'_villaImages/test'),{state:'ready'}));
  await env.withSecurityRulesDisabled(async c=>updateDoc(doc(c.firestore(),'villas/villa-aegean'),{published:false,revision:2,updatedAt:serverTimestamp()}));
  await assertFails(getDoc(doc(anon.firestore(),'villas/villa-aegean')));await assertFails(getBytes(ref(anon.storage(),path)));await assertSucceeds(getDoc(doc(admin.firestore(),'villas/villa-aegean')));
+ await env.withSecurityRulesDisabled(async c=>setDoc(doc(c.firestore(),'site_content/hero'),{slides:[],intervalMs:5000,revision:1}));
+ await assertSucceeds(getDoc(doc(anon.firestore(),'site_content/hero')));
+ await assertFails(setDoc(doc(admin.firestore(),'site_content/hero'),{slides:[],intervalMs:1000}));
+ await assertFails(getDoc(doc(anon.firestore(),'_heroImages/private')));
  console.log('Tourist Firestore and Storage emulator scenarios passed.');
 }finally{await env.cleanup();}

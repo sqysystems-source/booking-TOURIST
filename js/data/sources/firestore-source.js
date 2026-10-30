@@ -71,3 +71,10 @@ export async function fetchBySlug(slug) {
   );
   return records[0] ?? null;
 }
+
+/** Homepage configuration is a separate public document; no villa query changes. */
+export async function fetchHero(){
+ const {db,fs}=await withTimeout(loadFirestore(),FIRESTORE_TIMEOUT_MS);
+ const snapshot=await withTimeout(fs.getDocFromServer(fs.doc(db,'site_content','hero')),FIRESTORE_TIMEOUT_MS);
+ return snapshot.exists()?snapshot.data():null;
+}

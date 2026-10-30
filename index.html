@@ -28,9 +28,14 @@
   </div>
 
   <main id="main">
-    <section class="hero" aria-labelledby="hero-title">
-      <img class="hero__image" src="assets/img/hero.svg" width="1600" height="1000" fetchpriority="high"
-           alt="Illustration of a whitewashed villa with a pool at golden hour">
+    <section class="hero" id="hero-slider-section" aria-labelledby="hero-title">
+      <div class="hero-slider-track" id="hero-slider-track">
+        <img class="hero-slide is-active" src="assets/img/hero.svg" width="1600" height="1000" fetchpriority="high" alt="Greek island villa beside the sea">
+      </div>
+      <div class="hero-slider-controls">
+        <button type="button" id="hero-pause-btn" class="hero-slider-nav" aria-label="Pause slideshow" hidden>Pause</button>
+        <button type="button" id="hero-next-btn" class="hero-slider-nav" aria-label="Next photo" title="Next photo" hidden>→</button>
+      </div>
       <div class="container hero__content">
         <h1 id="hero-title" class="hero__title">
           <span class="hero__line">Villa stays on</span>

@@ -87,3 +87,6 @@ contactHost.append(
   createContactCards({ message: buildGeneralMessage(CONTACT), subject: CONTACT.generalEmailSubject }),
   configurationHint(),
 );
+
+import {mountHeroSlider} from '../ui/hero-slider.js';
+void mountHeroSlider();

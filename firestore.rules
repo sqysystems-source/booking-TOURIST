@@ -88,6 +88,11 @@ service cloud.firestore {
    // attaching an image and deleting its object. Public/admin reads stay intact.
    allow create,update,delete: if false;
   }
+  match /site_content/hero {
+   allow get: if true;
+   // Tenant-admin writes are authorized by /api/r2 and committed via Admin SDK.
+   allow list,create,update,delete: if false;
+  }
   match /{document=**} { allow read,write: if false; }
  }
 }

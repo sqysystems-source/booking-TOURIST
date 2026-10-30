@@ -873,3 +873,15 @@ body.has-mobile-cta {
 .villa-loading {
   grid-template-columns: 1fr;
 }
+
+/* Homepage gallery: the existing hero scrim and content remain above the track. */
+.hero-slider-track { position:absolute; inset:0; z-index:-2; }
+.hero-slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 55%; opacity:0; transition:opacity .8s ease-in-out; }
+.hero-slide.is-active { opacity:1; }
+.hero-slider-controls { position:absolute; right:clamp(1rem,3vw,3rem); top:50%; display:flex; gap:.65rem; z-index:2; }
+.hero-slider-nav { border:1px solid rgba(255,255,255,.6); border-radius:999px; min-width:3rem; min-height:3rem; padding:.65rem; background:rgba(23,44,54,.45); backdrop-filter:blur(8px); color:white; cursor:pointer; }
+.hero-slider-nav[hidden] { display:none; }
+.hero-slider-nav:hover { background:rgba(23,44,54,.8); }
+.hero-slider-nav:focus-visible { outline:3px solid white; outline-offset:4px; }
+@media (prefers-reduced-motion:reduce) { .hero-slide { transition:none; } }
+@media (max-width:600px) { .hero-slider-controls { top:auto; bottom:1rem; } }
