@@ -1,3 +1,4 @@
+import {createVideoTour} from '../ui/video-tour.js';
 import { SITE } from '../config/site-config.js';
 import { CONTACT } from '../config/contact-config.js';
 import { getVillaBySlug, resetCache } from '../data/villa-service.js';
@@ -136,6 +137,7 @@ function renderVilla(villa) {
           villa.description
             ? h('section', { class: 'detail-block', 'aria-labelledby': 'about-title' }, h('h2', { id: 'about-title' }, 'About this villa'), h('div', { class: 'prose' }, paragraphs(villa.description)))
             : null,
+          createVideoTour(villa),
           amenities,
           h(
             'section',

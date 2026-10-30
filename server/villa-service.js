@@ -1,3 +1,4 @@
+import {createVideoService} from './video-service.js';
 import {randomUUID} from 'node:crypto';
 import {validateVilla,validVillaId,villaError} from './villa-model.js';
 import {TYPES,MAX_BYTES} from './r2.js';
@@ -6,6 +7,7 @@ export const imageId=key=>key.split('/').pop().split('.')[0];
 export function validKey(id,key){validVillaId(id);if(typeof key!=='string'||!new RegExp('^villas/'+id+'/[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}\\.(jpg|png|webp)$').test(key))throw villaError('image');return key;}
 export function createVillaService(db,r2){
  const villa=id=>db.collection('villas').doc(validVillaId(id)),asset=key=>db.collection('_villaImages').doc(imageId(key));
+ const videos=id=>db.collection('_villaVideos').where('villaId','==',id);
  const registry=id=>db.collection('_villaImages').where('villaId','==',id);
  const legacy=old=>(old?.images||[]).map(i=>typeof i==='string'?{url:i,alt:''}:i);
  function checkRevision(old,expected){if((old?old.revision||0:null)!==expected)throw villaError('conflict');}
@@ -63,24 +65,32 @@ export function createVillaService(db,r2){
     const snap=await tx.get(target),old=snap.data();checkRevision(old,expected);
     if(old&&old.slug!==value.slug)throw villaError('slugLocked');
     if(!old){if(id!==value.slug)throw villaError('invalid');const duplicates=await tx.get(db.collection('villas').where('slug','==',value.slug));if(!duplicates.empty)throw villaError('duplicate');}
+    const videoEntries=await tx.get(videos(id));
+    if(!Object.hasOwn(value,'video'))value.video=old?.video||null;
+    if(value.video?.storageType==='r2'){const entry=videoEntries.docs.find(d=>d.data().key===value.video.r2Key)?.data();if(!entry||!['ready','attached'].includes(entry.state)||entry.url!==value.video.url)throw villaError('video');}
+    if(value.video){value.video.updatedAt=['url','title','storageType','r2Key'].every(k=>value.video[k]===old?.video?.[k])?(old.video.updatedAt||new Date().toISOString()):new Date().toISOString();}
     const entries=await tx.get(registry(id)),byKey=new Map(entries.docs.map(d=>[d.data().key,d]));
     for(const image of value.images){
      if(image.r2Key){const entry=byKey.get(validKey(id,image.r2Key)),row=entry?.data();if(!row||!['ready','attached'].includes(row.state)||image.url!==row.url)throw villaError('image');}
      else if(!legacy(old).some(i=>i.url===image.url&&(i.storagePath||'')===(image.storagePath||'')&&!i.r2Key))throw villaError('image');
     }
     for(const entry of entries.docs){const row=entry.data(),used=value.images.some(i=>i.r2Key===row.key);if(used)tx.update(entry.ref,{state:'attached'});else if(row.state==='attached')tx.update(entry.ref,{state:'deleting'});}
+    for(const entry of videoEntries.docs){const row=entry.data();if(value.video?.r2Key===row.key)tx.update(entry.ref,{state:'attached'});else if(row.state==='attached')tx.update(entry.ref,{state:'deleting'});}
     tx.set(target,{...value,id:old?.id||id,revision:(old?.revision||0)+1,createdAt:old?.createdAt||FieldValue.serverTimestamp(),updatedAt:FieldValue.serverTimestamp()});
    });
-   return {id,cleanupFailed:await cleanup(id)};
+   return {id,cleanupFailed:(await cleanup(id))+(await createVideoService(db,r2).cleanup({id})).cleanupFailed};
   },
   async remove({id,expected}){
    validVillaId(id);await db.runTransaction(async tx=>{
     const [snap,entries]=await Promise.all([tx.get(villa(id)),tx.get(registry(id))]);if(!snap.exists)throw villaError('conflict');checkRevision(snap.data(),expected);
+    const videoEntries=await tx.get(videos(id));
+    if(videoEntries.docs.some(d=>d.data().state==='publishing'&&d.data().leaseUntil>Date.now()))throw villaError('conflict');
+    for(const d of videoEntries.docs)tx.update(d.ref,{state:'deleting'});
     if(entries.docs.some(d=>d.data().state==='publishing'&&d.data().leaseUntil>Date.now()))throw villaError('conflict');
     for(const d of entries.docs)tx.update(d.ref,{state:'deleting'});tx.delete(villa(id));
-   });return {cleanupFailed:await cleanup(id)};
+   });return {cleanupFailed:(await cleanup(id))+(await createVideoService(db,r2).cleanup({id})).cleanupFailed};
   },
   async discard({id,key}){await erase(id,key);return {ok:true};},
-  async cleanup({id}){validVillaId(id);return {cleanupFailed:await cleanup(id)};}
+  async cleanup({id}){validVillaId(id);return {cleanupFailed:(await cleanup(id))+(await createVideoService(db,r2).cleanup({id})).cleanupFailed};}
  };
 }

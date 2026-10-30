@@ -1,3 +1,4 @@
+import {validateVideo} from './video-model.js';
 // Canonical write contract for booking-TOURIST/js/data/schema-map.js (EUR, no live booking claims).
 export const TOURIST_ISLANDS=Object.freeze(['Santorini','Mykonos','Paros','Naxos','Crete','Milos','Corfu','Zakynthos']);
 export const TOURIST_AMENITIES=Object.freeze(['pool','seaView','wifi','airConditioning','kitchen','chef','bbq','parking','beachNearby','outdoorDining','garden','jacuzzi','washer','petFriendly']);
@@ -30,7 +31,7 @@ export function validateVilla(input,id){
  if(typeof input.published!=='boolean'||typeof input.featured!=='boolean')fail('invalid');
  const description=text(input.description,12000),shortDescription=text(input.shortDescription,300);
  if(input.published&&!description)fail('publish');
- return {name,slug,island:input.island,area:text(input.area,120),description,shortDescription,images,maxGuests:count('maxGuests',1,100),bedrooms:count('bedrooms',0,50),bathrooms:count('bathrooms',0,50),amenities:canonicalTouristAmenities(input.amenities),priceFrom,currency:'EUR',featured:input.featured,published:input.published};
+ return {...(Object.hasOwn(input,'video')?{video:validateVideo(input.video,id)}:{}),name,slug,island:input.island,area:text(input.area,120),description,shortDescription,images,maxGuests:count('maxGuests',1,100),bedrooms:count('bedrooms',0,50),bathrooms:count('bathrooms',0,50),amenities:canonicalTouristAmenities(input.amenities),priceFrom,currency:'EUR',featured:input.featured,published:input.published};
 }
 export function validateImageFile(file){if(!file||!['image/jpeg','image/png','image/webp'].includes(file.type)||!Number.isFinite(file.size)||file.size<=0||file.size>MAX_IMAGE_BYTES)fail('image');return file;}
 export function villaImageUrl(bucket,path){if(typeof bucket!=='string'||!bucket||/[/?#]/.test(bucket))fail('image');return 'https://firebasestorage.googleapis.com/v0/b/'+encodeURIComponent(bucket)+'/o/'+encodeURIComponent(path)+'?alt=media';}

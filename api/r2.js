@@ -1,3 +1,4 @@
+import {createVideoService} from '../server/video-service.js';
 import {tenantAdmin} from '../server/firebase-admin.js';
 import {createR2} from '../server/r2.js';
 import {createHeroService} from '../server/hero-service.js';
@@ -24,9 +25,10 @@ export function makeHandler({admin=tenantAdmin,storage=createR2,origins=allowedO
    const body=typeof req.body==='string'?JSON.parse(req.body):req.body;
    if(!body||typeof body!=='object'||Array.isArray(body)||JSON.stringify(body).length>131072)return res.status(400).json({error:'invalid'});
    const {action,...args}=body;
+   const videoAction=typeof action==='string'&&action.startsWith('video-')?action.slice(6):null;
    const heroAction=typeof action==='string'&&action.startsWith('hero-')?action.slice(5):null;
-   if(!(heroAction?['presign','complete','save','discard','cleanup'].includes(heroAction):['presign','complete','save','remove','discard','cleanup'].includes(action)))return res.status(400).json({error:'invalid'});
-   const result=heroAction?await createHeroService(db,storage())[heroAction]({...args,id:'hero'}):await createVillaService(db,storage())[action](args);return res.status(200).json(result);
+   if(!(videoAction?['presign','complete','discard','cleanup'].includes(videoAction):heroAction?['presign','complete','save','discard','cleanup'].includes(heroAction):['presign','complete','save','remove','discard','cleanup'].includes(action)))return res.status(400).json({error:'invalid'});
+   const result=videoAction?await createVideoService(db,storage())[videoAction](args):heroAction?await createHeroService(db,storage())[heroAction]({...args,id:'hero'}):await createVillaService(db,storage())[action](args);return res.status(200).json(result);
   }catch(error){
    if(error instanceof SyntaxError)return res.status(400).json({error:'invalid'});
    const code=error?.code?.startsWith('villa/')?error.code.slice(6):null;

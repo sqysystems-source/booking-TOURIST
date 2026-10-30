@@ -62,7 +62,7 @@ service cloud.firestore {
    ;
   }
   function villa(d,id) {
-   return d.keys().hasOnly(['id','slug','name','island','area','description','shortDescription','images','maxGuests','bedrooms','bathrooms','amenities','priceFrom','currency','featured','published','revision','createdAt','updatedAt'])
+   return d.keys().hasOnly(['id','slug','name','island','area','description','shortDescription','images','maxGuests','bedrooms','bathrooms','amenities','priceFrom','currency','featured','published','revision','createdAt','updatedAt','video'])
     && d.keys().hasAll(['id','slug','name','island','area','description','shortDescription','images','maxGuests','bedrooms','bathrooms','amenities','priceFrom','currency','featured','published','revision','createdAt','updatedAt'])
     && txt(d.id,128) && txt(d.slug,100) && d.slug.matches('^[a-z0-9]+(-[a-z0-9]+)*$')
     && txt(d.name,120) && d.name.size()>0 && txt(d.area,120)

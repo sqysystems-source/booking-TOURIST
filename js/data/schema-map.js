@@ -1,3 +1,4 @@
+import {validateVideo} from './video-model.js';
 /**
  * Schema mapping: the single place that knows how a stored villa document
  * (Firestore or demo) maps to the shape the website uses.
@@ -107,6 +108,7 @@ function deriveShortDescription(description) {
  * Returns null (and reports why) when a record is unusable, so one bad record
  * never breaks the whole listing.
  */
+function normalizedVideo(raw,id){try{return validateVideo(raw,id);}catch{return null;}}
 export function normalizeVilla(raw, docId = '', onWarn = () => {}) {
   if (!raw || typeof raw !== 'object') return null;
 
@@ -144,6 +146,7 @@ export function normalizeVilla(raw, docId = '', onWarn = () => {}) {
     description,
     shortDescription,
     images: normalizeImages(read(raw, 'images'), name),
+    video: normalizedVideo(raw.video,docId||id),
     maxGuests: toCount(read(raw, 'maxGuests')),
     bedrooms: toCount(read(raw, 'bedrooms')),
     bathrooms: toCount(read(raw, 'bathrooms')),
